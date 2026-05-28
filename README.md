@@ -50,6 +50,7 @@ projeto-ia-chatbot-saude/
 
 ├── README.md
 
+
 # 📈 Resultado Esperado
 
 Espera-se desenvolver uma solução funcional capaz de responder perguntas sobre medicamentos utilizando informações extraídas diretamente de bulas oficiais, demonstrando a aplicação prática de técnicas modernas de Inteligência Artificial Generativa e Recuperação de Informação.
