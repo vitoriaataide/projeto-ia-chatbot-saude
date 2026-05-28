@@ -5,6 +5,7 @@ Repositório destinado ao projeto da disciplina de Inteligência Artificial, des
 # 👥 Componentes do Grupo
 - Elton Silva
 - Vitória Ataide
+- Kevin Silva
 - Hudson Silva (Líder)
 
 # 📚 Sobre o Projeto
