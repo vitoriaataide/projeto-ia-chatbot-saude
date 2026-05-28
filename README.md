@@ -34,19 +34,19 @@ O objetivo deste projeto é desenvolver um chatbot inteligente capaz de responde
 - Consulta sobre medicamentos e informações farmacêuticas.
 
 # 📁 Estrutura do Projeto
-chatbot-saude-rag/
+projeto-ia-chatbot-saude/
 
-│
+ │
 
-├── projeto-docs/
+ ├── projeto-docs/
 
-│   ├── titulo-problema.md
+ │   ├── titulo-problema.md
 
-│   ├── dados-abordagem.md
+ │   ├── dados-abordagem.md
 
-│   └── resultado-metricas.md
-
-│
+ │   └── resultado-metricas.md
+ 
+ │
 
 ├── README.md
 
