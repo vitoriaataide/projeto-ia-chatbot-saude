@@ -3,9 +3,9 @@
 Repositório destinado ao projeto da disciplina de Inteligência Artificial, desenvolvido utilizando técnicas de LLM + RAG (Retrieval-Augmented Generation) para responder perguntas sobre medicamentos com base em bulas oficiais.
 
 # 👥 Componentes do Grupo
+- Elton Silva
 - Vitória Ataide
-- Hudson Silva
-- Elton Silva (Líder)
+- Hudson Silva (Líder)
 
 # 📚 Sobre o Projeto
 
