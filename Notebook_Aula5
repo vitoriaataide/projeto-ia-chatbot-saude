@@ -1,0 +1,227 @@
+1. Exemplo expandido:
+
+# ═══ Sistema Especialista — Diagnóstico Tropical ═══
+
+class SistemaEspecialista:
+    def __init__(self, nome):
+        self.nome = nome
+        self.fatos = set()
+        self.regras = []
+
+    def regra(self, sintomas, diagnostico, confianca=1.0):
+        self.regras.append({
+            'sintomas': set(sintomas),
+            'diagnostico': diagnostico,
+            'confianca': confianca
+        })
+
+    def perguntar(self, sintoma):
+        resp = input(f"Você tem {sintoma.replace('_', ' ')}? (s/n): ").strip().lower()
+
+        if resp == 's':
+            self.fatos.add(sintoma)
+            return True
+
+        return False
+
+    def diagnosticar(self):
+        print(f"\n🏥 {self.nome}")
+        print("Responda com s (sim) ou n (não).\n")
+
+        # Coleta todos os sintomas
+        todos_sintomas = set()
+
+        for r in self.regras:
+            todos_sintomas.update(r['sintomas'])
+
+        # Perguntas
+        for sintoma in sorted(todos_sintomas):
+            self.perguntar(sintoma)
+
+        # Diagnóstico
+        print("\n🔍 Analisando sintomas...\n")
+
+        resultados = []
+
+        for r in self.regras:
+            match = len(r['sintomas'] & self.fatos)
+            total = len(r['sintomas'])
+
+            if match > 0:
+                score = (match / total) * r['confianca']
+                resultados.append((r['diagnostico'], score, match, total))
+
+        resultados.sort(key=lambda x: -x[1])
+
+        if resultados:
+            print("📋 Possíveis diagnósticos:\n")
+
+            for diag, score, match, total in resultados:
+                barra = '█' * int(score * 20)
+                barra += '░' * (20 - int(score * 20))
+
+                print(f"{barra} {score*100:5.1f}%")
+                print(f"➡ {diag} ({match}/{total} sintomas)\n")
+        else:
+            print("Nenhum diagnóstico encontrado.")
+
+# Criando sistema
+
+doc = SistemaEspecialista(
+    "Sistema Especialista de Doenças Tropicais - CC0121"
+)
+
+# Doenças já existentes
+doc.regra(
+    ["febre", "tosse", "dor_corpo", "fadiga"],
+    "Gripe",
+    0.9
+)
+
+doc.regra(
+    ["febre", "tosse", "perda_olfato"],
+    "COVID-19 (suspeita)",
+    0.85
+)
+
+doc.regra(
+    ["espirros", "coriza", "coceira_olhos"],
+    "Alergia",
+    0.95
+)
+
+doc.regra(
+    ["febre", "dor_cabeca", "dor_corpo", "manchas_pele"],
+    "Dengue (suspeita)",
+    0.9
+)
+
+doc.regra(
+    ["dor_garganta", "febre", "dor_engolir"],
+    "Amigdalite",
+    0.85
+)
+
+doc.regra(
+    ["tosse", "coriza", "espirros"],
+    "Resfriado",
+    0.9
+)
+
+
+# Doenças tropicais do Pará / Amazônia
+
+# 1. Malária
+doc.regra(
+    ["febre", "calafrios", "suor", "dor_cabeca", "fadiga"],
+    "Malária",
+    0.95
+)
+
+# 2. Chikungunya
+doc.regra(
+    ["febre", "dor_articulacoes", "dor_corpo", "fadiga"],
+    "Chikungunya",
+    0.92
+)
+
+# 3. Zika
+doc.regra(
+    ["febre", "manchas_pele", "coceira", "dor_articulacoes"],
+    "Zika Vírus",
+    0.88
+)
+
+# 4. Leptospirose
+doc.regra(
+    ["febre", "dor_corpo", "olhos_vermelhos", "vomito"],
+    "Leptospirose",
+    0.87
+)
+
+# 5. Febre Amarela
+doc.regra(
+    ["febre", "ictericia", "dor_corpo", "vomito"],
+    "Febre Amarela",
+    0.93
+)
+
+
+# Executar sistema
+doc.diagnosticar()
+
+2.KG ecossistema amazônico 
+
+graph TD
+
+A[Amazônia] -->|possui_bioma| B[Floresta Tropical]
+A -->|abriga| C[Onça-pintada]
+A -->|abriga| D[Boto-cor-de-rosa]
+A -->|abriga| E[Harpia]
+A -->|abriga| F[Pirarucu]
+
+G[Rio Amazonas] -->|atravessa| A
+H[Rio Negro] -->|deságua_em| G
+I[Rio Tapajós] -->|deságua_em| G
+
+J[Desmatamento] -->|ameaça| A
+K[Garimpo ilegal] -->|polui| I
+L[Queimadas] -->|ameaçam| M[Biodiversidade]
+N[Mudanças climáticas] -->|aumentam| O[Secas extremas]
+P[Pecuária extensiva] -->|causa| J
+Q[Extração ilegal de madeira] -->|reduz| R[Cobertura florestal]
+
+S[Ibama] -->|fiscaliza| T[Crimes ambientais]
+U[ICMBio] -->|protege| V[Unidades de conservação]
+W[Política Nacional do Meio Ambiente] -->|regula| X[Proteção ambiental]
+Y[Acordo de Paris] -->|combate| N
+
+Z[Povos indígenas] -->|preservam| AA[Floresta Amazônica]
+AB[Terras indígenas] -->|reduzem| J
+M -->|depende_de| AC[Rios amazônicos]
+
+AD[Mercúrio] -->|contamina| AE[Peixes]
+AD -->|ameaça| AF[Populações ribeirinhas]
+AG[Energia hidrelétrica] -->|impacta| AH[Ecossistemas aquáticos]
+V -->|protegem| M
+
+AI[Castanheira] -->|é_espécie_de| AJ[Árvore amazônica]
+AK[Açaizeiro] -->|é_espécie_de| AL[Palmeira amazônica]
+C -->|é_predador_de| AM[Capivara]
+D -->|habita| G
+E -->|habita| AN[Copa das árvores]
+
+3.RAG e prompts
+
+Você é um especialista em ecossistemas amazônicos.
+
+Responda à pergunta do usuário utilizando SOMENTE os fatos fornecidos no contexto.
+
+Se a resposta não puder ser inferida diretamente dos fatos, diga:
+"Os dados disponíveis no Knowledge Graph são insuficientes para responder completamente."
+
+Contexto factual:
+{TRIPLAS_RECUPERADAS}
+
+Pergunta:
+{PERGUNTA_USUARIO}
+
+Instruções:
+
+- Seja objetivo e factual.
+- Explique relações de causa e efeito quando existirem.
+- Não invente informações fora do contexto.
+- Cite explicitamente as entidades relevantes.
+
+4.Reflexao
+
+IA simbólica é baseada em regras e lógica.
+Um exemplo do mundo real seria em sistemas especialistas médicos como o MYCIN. Que
+diagnosticava infecções bacterianas usando regras lógicas.
+
+IA conexionista é baseada em redes neurais e aprendizado estatístico.
+Um exemplo do mundo real seria o ChatGPT e outras LLMs.
+
+
+IA neuro-simbólica é a combinação das duas abordagens
+Um exemplo do mundo real séria a combinação de LLMs com KGs ou RAGs.
