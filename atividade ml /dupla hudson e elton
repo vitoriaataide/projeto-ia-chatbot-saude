@@ -1,64 +1,211 @@
-# Cenário A — Doença rara (2% dos casos) e falso negativo catastrófico
+# 🧠 Atividade Avaliativa · Lab 1 · Machine Learning (UFPA 2026)
 
-### (a) Técnica/algoritmo
-Classificação supervisionada utilizando algoritmos como Random Forest ou XGBoost, com tratamento para classes desbalanceadas.
-
-### (b) Métrica de avaliação
-Recall (Sensibilidade).
-
-### (c) Justificativa
-Como a doença afeta apenas 2% dos pacientes e um falso negativo pode ter consequências graves, o principal objetivo é identificar o maior número possível de casos positivos. Por isso, o recall é mais importante do que a acurácia.
+Atividade prática de Machine Learning com foco em **escolha de técnicas, justificativa e interpretação de resultados**, simulando um fluxo real de trabalho em ciência de dados.
 
 ---
 
-# Cenário B — Descobrir grupos naturais de clientes
+## 🎯 Objetivo
 
-### (a) Técnica/algoritmo
-Aprendizado não supervisionado com K-Means.
-
-### (b) Como decidir o número de grupos?
-Utilizando o Método do Cotovelo (Elbow Method) e/ou o Coeficiente de Silhueta (Silhouette Score).
-
-### (c) Justificativa
-Como não existem rótulos, o objetivo é encontrar padrões de comportamento nos clientes. Essas métricas ajudam a escolher um número adequado de grupos com boa separação e coesão.
+O objetivo desta atividade não é apenas implementar modelos, mas **saber escolher a técnica correta para cada problema e justificar as decisões tomadas**, como ocorre no mercado de IA.
 
 ---
 
-# Cenário C — Previsão de gasto mensal
+## 🤖 Uso de LLM (IA)
 
-### (a) Técnica/algoritmo
-Regressão.
+Ferramentas como ChatGPT, Claude e Copilot foram utilizadas como apoio técnico para:
 
-### (b) Métrica de erro
-RMSE (Root Mean Squared Error) ou MAE (Mean Absolute Error).
+- Consulta de sintaxe e bibliotecas
+- Sugestão de estruturas de código
+- Apoio em debugging
+- Revisão de conceitos
 
-### (c) Justificativa
-O valor gasto no próximo mês é uma variável numérica contínua, caracterizando um problema de regressão. RMSE e MAE permitem medir a diferença entre os valores previstos e os reais.
-
----
-
-# Cenário D — Dataset tabular com 100 mil linhas e 40 colunas
-
-### (a) Família de algoritmos
-Gradient Boosting baseado em árvores, como XGBoost, LightGBM ou CatBoost.
-
-### (b) Por que não rede neural?
-Redes neurais geralmente exigem mais ajuste de hiperparâmetros, maior poder computacional e nem sempre apresentam melhor desempenho em dados tabulares.
-
-### (c) Justificativa
-Modelos de boosting costumam alcançar excelente performance em bases tabulares estruturadas com menor esforço de desenvolvimento e treinamento.
+⚠️ No entanto, todas as decisões de modelagem, métricas e interpretações foram feitas com base em análise própria.
 
 ---
 
-# Cenário E — 99% de acurácia no treino e 68% no teste
+# 📊 Questão 1 — Escolha da Técnica
 
-### (a) Diagnóstico
-Overfitting (sobreajuste).
+## 🧭 Cenário A — Doença rara
 
-### (b) Três formas de resolver
-1. Reduzir a complexidade do modelo.
-2. Aplicar técnicas de regularização.
-3. Utilizar mais dados ou validação cruzada (cross-validation).
+- **Técnica:** Classificação supervisionada (ex: Logistic Regression, Random Forest, XGBoost)
+- **Métrica:** Recall (prioritário)
+- **Justificativa:** Falsos negativos são críticos, pois deixar de identificar um paciente doente pode ter consequências graves.
 
-### (c) Justificativa
-A diferença significativa entre o desempenho no treino e no teste indica que o modelo aprendeu excessivamente os dados de treinamento e não consegue generalizar adequadamente para novos exemplos.
+---
+
+## 🧭 Cenário B — Segmentação de clientes
+
+- **Técnica:** Aprendizado não supervisionado (K-Means / GMM)
+- **Escolha de clusters:** Elbow Method + Silhouette Score
+- **Justificativa:** Não há rótulos; buscamos padrões naturais de comportamento.
+
+---
+
+## 🧭 Cenário C — Previsão de valor contínuo
+
+- **Técnica:** Regressão (Linear Regression, Random Forest Regressor, XGBoost Regressor)
+- **Métrica:** MAE ou RMSE
+- **Justificativa:** O objetivo é prever valores numéricos contínuos.
+
+---
+
+## 🧭 Cenário D — Dataset grande e tabular
+
+- **Técnica:** Modelos baseados em árvores (Random Forest, Gradient Boosting, XGBoost, LightGBM)
+- **Justificativa:** Alta performance em dados tabulares com baixo custo computacional comparado a redes neurais.
+
+---
+
+## 🧭 Cenário E — Overfitting em classificação
+
+- **Diagnóstico:** Overfitting (alta variância)
+- **Soluções:**
+  - Redução da profundidade do modelo
+  - Regularização (L1/L2)
+  - Validação cruzada
+  - Mais dados de treinamento
+
+---
+
+# 🧪 Questão 2 — Pipeline de Supervisionado (Diabetes)
+
+## 🔎 2.1 EDA e tratamento de dados
+
+Durante a análise do dataset, foi identificado que alguns atributos possuem valores 0 impossíveis biologicamente (ex: glicose, pressão arterial).
+
+- Estratégia adotada:
+  - Substituição de valores 0 por NaN
+  - Imputação pela mediana
+
+**Justificativa:** zeros representam ausência de medição e não valores reais.
+
+---
+
+## 🤖 2.2 Modelagem
+
+Modelos utilizados:
+
+- Logistic Regression
+- Random Forest
+- XGBoost
+
+📌 Observação:
+- Logistic Regression requer escalonamento
+- Modelos baseados em árvores não são sensíveis à escala
+
+---
+
+## 📈 2.3 Avaliação
+
+- Métricas utilizadas:
+  - Recall (principal)
+  - Precision
+  - Matriz de confusão
+
+**Justificativa:** Em diagnóstico médico, o custo de falsos negativos é maior que falsos positivos.
+
+---
+
+## 🧠 2.4 Interpretação
+
+As variáveis mais relevantes para previsão de diabetes foram:
+
+- Glicose
+- IMC
+- Idade
+
+Esses fatores estão alinhados com a literatura médica, pois estão diretamente relacionados ao metabolismo da glicose e risco de resistência à insulina.
+
+---
+
+# 🛰️ Questão 3 — Clustering (Sementes de Trigo)
+
+## 📊 3.1 Método do cotovelo
+
+O método do cotovelo foi utilizado para identificar o número ideal de clusters.
+
+---
+
+## 🔬 3.2 K-Means + PCA
+
+- Dados padronizados com StandardScaler
+- Aplicação do K-Means
+- Redução de dimensionalidade com PCA para visualização
+
+---
+
+## 🌾 3.3 Interpretação dos clusters
+
+Os clusters representam diferentes padrões geométricos de grãos de trigo:
+
+- Cluster 1: grãos maiores e mais alongados
+- Cluster 2: grãos médios
+- Cluster 3: grãos mais compactos
+
+📌 Aplicação prática: classificação de qualidade e automação agrícola.
+
+---
+
+# 🔍 Questão 4 — Diagnóstico de Overfitting
+
+## 📉 4.1 Curva de complexidade
+
+Foi observada a relação entre profundidade da árvore e desempenho:
+
+- Treino: aumenta continuamente
+- Teste: atinge pico e depois cai
+
+📌 Indicação de overfitting a partir de profundidade intermediária.
+
+---
+
+## 🎯 4.2 Melhor profundidade
+
+A profundidade ideal foi escolhida com base em validação cruzada, minimizando erro médio.
+
+---
+
+## 🧠 4.3 Conceito de overfitting
+
+Overfitting ocorre quando o modelo aprende padrões específicos dos dados de treino, incluindo ruído, prejudicando sua capacidade de generalização.
+
+📌 Analogia:
+É como decorar respostas de exercícios em vez de entender o conteúdo — funciona para provas iguais, mas falha em questões novas.
+
+### Técnicas para reduzir overfitting:
+- Pruning
+- Regularização
+- Redução de complexidade do modelo
+
+---
+
+# 🤖 Questão 5 — Uso do LLM
+
+## 🧾 5.1 Exemplos de prompts usados
+
+- “Explique diferença entre precision e recall em problemas médicos”
+- “Como tratar valores zero inválidos em datasets de saúde?”
+
+---
+
+## ⚠️ 5.2 Limitações do LLM
+
+Em alguns momentos, o modelo sugeriu métricas inadequadas como acurácia em problema desbalanceado, o que foi corrigido após análise crítica.
+
+---
+
+## 🧭 5.3 Decisões próprias
+
+Decisões como escolha de métricas, interpretação clínica e validação dos modelos foram feitas de forma independente, pois exigem conhecimento contextual do problema.
+
+---
+
+# 📌 Conclusão
+
+Esta atividade reforça que em Machine Learning o mais importante não é apenas implementar modelos, mas:
+
+- Saber escolher a técnica correta
+- Entender o impacto das decisões
+- Interpretar resultados no contexto do problema real
+
+---
