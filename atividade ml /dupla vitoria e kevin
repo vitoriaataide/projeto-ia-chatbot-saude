@@ -62,3 +62,161 @@ Overfitting (alta variância)
 
 **(c) Justificativa:**  
 O modelo está se ajustando demais aos dados de treino e falha em generalizar para dados novos, indicando baixa capacidade de generalização.
+
+
+2.1 — EDA (Análise Exploratória dos Dados)
+
+1. Identificação do problema
+
+Ao analisar o conjunto de dados, observa-se que algumas variáveis possuem valores iguais a 0, embora isso seja biologicamente impossível ou altamente improvável. Essas colunas são:
+
+Glicose
+
+PressaoArterial
+
+EspessuraPele
+
+Insulina
+
+IMC
+
+
+Esses valores provavelmente representam dados ausentes (missing values), e não medições reais.
+
+
+---
+
+2. Verificação dos valores 0
+
+# Contagem de valores iguais a 0
+colunas_zero = ['Glicose', 'PressaoArterial',
+                'EspessuraPele', 'Insulina', 'IMC']
+
+for coluna in colunas_zero:
+    print(coluna, (df[coluna] == 0).sum())
+
+
+---
+
+3. Estratégia de tratamento
+
+Substituir os valores 0 por NaN e, em seguida, preencher os valores ausentes com a mediana de cada coluna.
+
+import numpy as np
+
+# Substituir 0 por NaN
+df[colunas_zero] = df[colunas_zero].replace(0, np.nan)
+
+# Preencher com a mediana
+for coluna in colunas_zero:
+    df[coluna].fillna(df[coluna].median(), inplace=True)
+
+
+---
+
+4. Justificativa
+
+A mediana é uma boa estratégia porque:
+
+É pouco sensível a valores extremos (outliers).
+
+Mantém a distribuição dos dados mais estável do que a média.
+
+Evita a perda de amostras que ocorreria caso as linhas fossem removidas, preservando os 768 registros do conjunto de dados.
+
+
+Assim, o tratamento melhora a qualidade dos dados e fornece uma base mais confiável para o treinamento de modelos de previsão de diabetes.
+
+2.2 (1,0 pt) — Modelagem
+
+Treinar três modelos diferentes utilizando validação cruzada (5-fold):
+
+Regressão Logística (necessita escalonamento)
+
+K-Nearest Neighbors (KNN) (necessita escalonamento)
+
+Random Forest (não necessita escalonamento)
+
+
+from sklearn.model_selection import cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+
+X = df.drop('Diabetes', axis=1)
+y = df['Diabetes']
+
+modelos = {
+    'Regressão Logística': Pipeline([
+        ('scaler', StandardScaler()),
+        ('modelo', LogisticRegression(max_iter=1000))
+    ]),
+    
+    'KNN': Pipeline([
+        ('scaler', StandardScaler()),
+        ('modelo', KNeighborsClassifier())
+    ]),
+    
+    'Random Forest': RandomForestClassifier(random_state=42)
+}
+
+for nome, modelo in modelos.items():
+    scores = cross_val_score(modelo, X, y, cv=5, scoring='recall')
+    print(f'{nome}: Recall médio = {scores.mean():.3f}')
+
+
+---
+
+2.3 (0,8 pt) — Avaliação
+
+Treinar o melhor modelo (maior recall) e calcular matriz de confusão, precisão e recall.
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
+)
+
+melhor_modelo = RandomForestClassifier(random_state=42)
+
+melhor_modelo.fit(X_train, y_train)
+
+pred = melhor_modelo.predict(X_test)
+
+print("Matriz de Confusão:")
+print(confusion_matrix(y_test, pred))
+
+print("Precisão:", precision_score(y_test, pred))
+print("Recall:", recall_score(y_test, pred))
+
+Resposta da pergunta-chave
+
+Em um teste de diabetes, o erro mais grave é o falso negativo, pois significa classificar um paciente doente como saudável, atrasando o diagnóstico e o tratamento. Por isso, a métrica mais importante é o recall (sensibilidade), que mede a capacidade do modelo de identificar corretamente os pacientes com diabetes.
+
+
+---
+
+2.4 (0,6 pt) — Interpretação
+
+Para verificar a importância das variáveis:
+
+import pandas as pd
+
+importancias = pd.Series(
+    melhor_modelo.feature_importances_,
+    index=X.columns
+).sort_values(ascending=False)
+
+print(importancias)
+
+Interpretação
+
+A variável que normalmente apresenta maior importância é Glicose, seguida por IMC e Idade.
+
+Esse resultado faz sentido do ponto de vista clínico, pois níveis elevados de glicose no sangue são um dos principais critérios utilizados no diagnóstico do diabetes. Além disso, maior IMC e idade mais avançada são fatores de risco conhecidos, estando associados ao aumento da resistência à insulina e da probabilidade de desenvolver a doença.
