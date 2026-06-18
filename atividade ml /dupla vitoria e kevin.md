@@ -1,142 +1,197 @@
-## Cenário A — Um hospital quer prever se um paciente tem uma doença rara (afeta 2% dos casos) a partir de 30 exames. Falso negativo (não detectar a doença) é catastrófico.
+Lista de Exercícios – Machine Learning
 
-**(a) Técnica:**  
-Classificação supervisionada (ex: Gradient Boosting, Random Forest ou Regressão Logística com ajuste de limiar)
+Cenário A — Predição de Doença Rara
 
-**(b) Métrica:**  
-Recall (sensibilidade) e PR-AUC
+Um hospital deseja prever se um paciente possui uma doença rara (2% dos casos) a partir de 30 exames laboratoriais. O custo de um falso negativo é extremamente alto.
 
-**(c) Justificativa:**  
-Como a doença é rara e o custo de não detectar um caso é altíssimo, o foco deve ser maximizar a detecção de positivos, mesmo aceitando mais falsos positivos; por isso recall e métricas de precisão-recall são mais adequadas que acurácia.
+(a) Técnica
 
----
+Classificação supervisionada:
 
-## Cenário B — Uma rede de farmácias tem dados de 50 mil clientes (idade, frequência, valor gasto) e quer descobrir grupos naturais de comportamento para campanha.
+- Gradient Boosting
+- Random Forest
+- Regressão Logística com ajuste do limiar de decisão
 
-**(a) Técnica:**  
-Aprendizado não supervisionado (ex: K-Means ou Gaussian Mixture Models)
+(b) Métrica
 
-**(b) Como escolher o número de clusters:**  
-Método do cotovelo (Elbow Method), Silhouette Score e validação por interpretação de negócio
+- Recall (Sensibilidade)
+- PR-AUC (Precision-Recall Area Under Curve)
 
-**(c) Justificativa:**  
-Como não existem rótulos, é necessário identificar padrões naturais nos dados, e o número de clusters deve equilibrar coesão interna e separação entre grupos, além de fazer sentido para uso em campanhas.
+(c) Justificativa
 
----
+Como a doença é rara e deixar de identificar um paciente doente pode trazer consequências graves, o objetivo principal é maximizar a detecção dos casos positivos, mesmo que isso aumente o número de falsos positivos.
 
-## Cenário C — Uma fintech quer prever o valor (em R$) que um cliente vai gastar no próximo mês, baseado no histórico. A saída é um número contínuo.
-
-**(a) Técnica:**  
-Regressão (ex: Regressão Linear, Random Forest Regressor, XGBoost Regressor)
-
-**(b) Métrica:**  
-MAE (Mean Absolute Error) ou RMSE (Root Mean Squared Error)
-
-**(c) Justificativa:**  
-O alvo é numérico contínuo (valor em R$), portanto trata-se de um problema de regressão; MAE é mais interpretável, enquanto RMSE penaliza mais erros grandes.
+Por esse motivo, Recall e PR-AUC são métricas mais apropriadas do que a acurácia.
 
 ---
 
-## Cenário D — Você tem um dataset tabular com 100 mil linhas e 40 colunas para um problema de classificação. Quer a melhor performance possível sem semanas de trabalho.
+Cenário B — Segmentação de Clientes
 
-**(a) Técnica:**  
-Modelos baseados em árvores com boosting (ex: XGBoost, LightGBM, CatBoost)
+Uma rede de farmácias possui dados de 50 mil clientes (idade, frequência de compras e valor gasto) e deseja descobrir grupos naturais de comportamento.
 
-**(b) Justificativa:**  
-Esses modelos geralmente apresentam excelente desempenho em dados tabulares, exigem menos engenharia de features e são eficientes em treinamento.
+(a) Técnica
 
-**(c) Por que não rede neural:**  
-Redes neurais normalmente exigem mais ajuste de hiperparâmetros, mais dados e maior custo computacional, e raramente superam boosting em dados tabulares estruturados.
+Aprendizado não supervisionado:
 
----
+- K-Means
+- Gaussian Mixture Models (GMM)
 
-## Cenário E — Um modelo de previsão de crédito atinge 99% de acurácia no treino e 68% no teste.
+(b) Escolha do número de clusters
 
-**(a) Diagnóstico:**  
-Overfitting (alta variância)
+- Método do Cotovelo (Elbow Method)
+- Silhouette Score
+- Validação baseada no contexto de negócio
 
-**(b) 3 formas de resolver:**  
-- Aplicar regularização (L1/L2, limitar profundidade de árvores, pruning)  
-- Reduzir complexidade do modelo (simplificação ou seleção de variáveis)  
-- Obter mais dados ou usar validação cruzada mais robusta  
+(c) Justificativa
 
-**(c) Justificativa:**  
-O modelo está se ajustando demais aos dados de treino e falha em generalizar para dados novos, indicando baixa capacidade de generalização.
+Como não existem rótulos previamente definidos, o objetivo é identificar padrões naturais presentes nos dados.
 
+O número ideal de clusters deve equilibrar:
 
-2.1 — EDA (Análise Exploratória dos Dados)
-
-1. Identificação do problema
-
-Ao analisar o conjunto de dados, observa-se que algumas variáveis possuem valores iguais a 0, embora isso seja biologicamente impossível ou altamente improvável. Essas colunas são:
-
-Glicose
-
-PressaoArterial
-
-EspessuraPele
-
-Insulina
-
-IMC
-
-
-Esses valores provavelmente representam dados ausentes (missing values), e não medições reais.
-
+- Alta coesão interna;
+- Boa separação entre grupos;
+- Facilidade de interpretação para campanhas de marketing.
 
 ---
 
-2. Verificação dos valores 0
+Cenário C — Previsão de Gastos de Clientes
 
-# Contagem de valores iguais a 0
-colunas_zero = ['Glicose', 'PressaoArterial',
-                'EspessuraPele', 'Insulina', 'IMC']
+Uma fintech deseja prever quanto um cliente irá gastar no próximo mês. A saída do modelo é um valor monetário contínuo.
+
+(a) Técnica
+
+Modelos de regressão:
+
+- Regressão Linear
+- Random Forest Regressor
+- XGBoost Regressor
+
+(b) Métricas
+
+- MAE (Mean Absolute Error)
+- RMSE (Root Mean Squared Error)
+
+(c) Justificativa
+
+Como a variável alvo é contínua (valor em reais), trata-se de um problema de regressão.
+
+- O MAE é facilmente interpretável;
+- O RMSE penaliza erros grandes com maior intensidade.
+
+---
+
+Cenário D — Classificação em Dataset Tabular
+
+Dataset com:
+
+- 100 mil linhas
+- 40 colunas
+
+Objetivo: obter alto desempenho com pouco esforço de desenvolvimento.
+
+(a) Técnica
+
+Modelos baseados em árvores com boosting:
+
+- XGBoost
+- LightGBM
+- CatBoost
+
+(b) Justificativa
+
+Esses modelos geralmente:
+
+- apresentam excelente desempenho em dados tabulares;
+- exigem pouca engenharia de atributos;
+- possuem treinamento eficiente.
+
+(c) Por que não utilizar Redes Neurais?
+
+Redes neurais normalmente:
+
+- exigem maior ajuste de hiperparâmetros;
+- demandam maior poder computacional;
+- necessitam de mais dados para atingir desempenho semelhante;
+- frequentemente não superam modelos de boosting em dados tabulares estruturados.
+
+---
+
+Cenário E — Diagnóstico de Overfitting
+
+Um modelo de previsão de crédito apresenta:
+
+- Acurácia de treino: 99%
+- Acurácia de teste: 68%
+
+(a) Diagnóstico
+
+Overfitting (alta variância).
+
+(b) Três formas de resolver
+
+- Aplicar regularização (L1/L2, poda ou limitação da profundidade das árvores);
+- Reduzir a complexidade do modelo;
+- Utilizar mais dados ou validação cruzada mais robusta.
+
+(c) Justificativa
+
+O modelo está memorizando os dados de treinamento e não consegue generalizar adequadamente para novos exemplos.
+
+---
+
+Questão 2.1 — Análise Exploratória dos Dados (EDA)
+
+Identificação do problema
+
+Algumas variáveis apresentam valores iguais a zero, embora isso seja biologicamente impossível ou altamente improvável:
+
+- Glicose
+- Pressão Arterial
+- Espessura da Pele
+- Insulina
+- IMC
+
+Esses valores são tratados como dados ausentes.
+
+Verificação dos valores iguais a zero
+
+colunas_zero = [
+    'Glicose',
+    'PressaoArterial',
+    'EspessuraPele',
+    'Insulina',
+    'IMC'
+]
 
 for coluna in colunas_zero:
     print(coluna, (df[coluna] == 0).sum())
 
-
----
-
-3. Estratégia de tratamento
-
-Substituir os valores 0 por NaN e, em seguida, preencher os valores ausentes com a mediana de cada coluna.
+Tratamento dos dados
 
 import numpy as np
 
-# Substituir 0 por NaN
 df[colunas_zero] = df[colunas_zero].replace(0, np.nan)
 
-# Preencher com a mediana
 for coluna in colunas_zero:
     df[coluna].fillna(df[coluna].median(), inplace=True)
 
+Justificativa
+
+A utilização da mediana:
+
+- reduz a influência de outliers;
+- preserva melhor a distribuição dos dados;
+- evita perda de amostras do conjunto de dados.
 
 ---
 
-4. Justificativa
+Questão 2.2 — Modelagem
 
-A mediana é uma boa estratégia porque:
+Modelos utilizados com validação cruzada (5-fold):
 
-É pouco sensível a valores extremos (outliers).
-
-Mantém a distribuição dos dados mais estável do que a média.
-
-Evita a perda de amostras que ocorreria caso as linhas fossem removidas, preservando os 768 registros do conjunto de dados.
-
-
-Assim, o tratamento melhora a qualidade dos dados e fornece uma base mais confiável para o treinamento de modelos de previsão de diabetes.
-
-2.2 (1,0 pt) — Modelagem
-
-Treinar três modelos diferentes utilizando validação cruzada (5-fold):
-
-Regressão Logística (necessita escalonamento)
-
-K-Nearest Neighbors (KNN) (necessita escalonamento)
-
-Random Forest (não necessita escalonamento)
-
+- Regressão Logística
+- K-Nearest Neighbors (KNN)
+- Random Forest
 
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
@@ -153,31 +208,40 @@ modelos = {
         ('scaler', StandardScaler()),
         ('modelo', LogisticRegression(max_iter=1000))
     ]),
-    
+
     'KNN': Pipeline([
         ('scaler', StandardScaler()),
         ('modelo', KNeighborsClassifier())
     ]),
-    
+
     'Random Forest': RandomForestClassifier(random_state=42)
 }
 
 for nome, modelo in modelos.items():
-    scores = cross_val_score(modelo, X, y, cv=5, scoring='recall')
-    print(f'{nome}: Recall médio = {scores.mean():.3f}')
+    scores = cross_val_score(
+        modelo,
+        X,
+        y,
+        cv=5,
+        scoring='recall'
+    )
 
+    print(f'{nome}: Recall médio = {scores.mean():.3f}')
 
 ---
 
-2.3 (0,8 pt) — Avaliação
-
-Treinar o melhor modelo (maior recall) e calcular matriz de confusão, precisão e recall.
+Questão 2.3 — Avaliação
 
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import (
+    confusion_matrix,
+    precision_score,
+    recall_score
+)
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y,
+    X,
+    y,
     test_size=0.2,
     random_state=42,
     stratify=y
@@ -189,22 +253,19 @@ melhor_modelo.fit(X_train, y_train)
 
 pred = melhor_modelo.predict(X_test)
 
-print("Matriz de Confusão:")
 print(confusion_matrix(y_test, pred))
-
 print("Precisão:", precision_score(y_test, pred))
 print("Recall:", recall_score(y_test, pred))
 
-Resposta da pergunta-chave
+Resposta
 
-Em um teste de diabetes, o erro mais grave é o falso negativo, pois significa classificar um paciente doente como saudável, atrasando o diagnóstico e o tratamento. Por isso, a métrica mais importante é o recall (sensibilidade), que mede a capacidade do modelo de identificar corretamente os pacientes com diabetes.
+O erro mais crítico é o falso negativo, pois significa classificar um paciente com diabetes como saudável.
 
+Por isso, a métrica mais importante é o Recall (Sensibilidade).
 
 ---
 
-2.4 (0,6 pt) — Interpretação
-
-Para verificar a importância das variáveis:
+Questão 2.4 — Importância das Variáveis
 
 import pandas as pd
 
@@ -217,32 +278,36 @@ print(importancias)
 
 Interpretação
 
-A variável que normalmente apresenta maior importância é Glicose, seguida por IMC e Idade.
+As variáveis normalmente mais importantes são:
 
-Esse resultado faz sentido do ponto de vista clínico, pois níveis elevados de glicose no sangue são um dos principais critérios utilizados no diagnóstico do diabetes. Além disso, maior IMC e idade mais avançada são fatores de risco conhecidos, estando associados ao aumento da resistência à insulina e da probabilidade de desenvolver a doença.
+1. Glicose
+2. IMC
+3. Idade
+
+Esse resultado é coerente com o conhecimento clínico, já que níveis elevados de glicose são um dos principais indicadores de diabetes, enquanto IMC elevado e idade avançada estão associados ao aumento do risco da doença.
 
 ---
 
-3.1 (0,5 pt) — Método do Cotovelo
-
-Código
+Questão 3.1 — Método do Cotovelo
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-# Remover a coluna de variedade
 X = df.drop('Variedade', axis=1)
 
-# Escalonamento
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Método do cotovelo
 inercia = []
 
 for k in range(1, 11):
-    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    kmeans = KMeans(
+        n_clusters=k,
+        random_state=42,
+        n_init=10
+    )
+
     kmeans.fit(X_scaled)
     inercia.append(kmeans.inertia_)
 
@@ -254,115 +319,143 @@ plt.show()
 
 Resposta
 
-O gráfico do método do cotovelo apresenta uma redução acentuada da inércia até k = 3, tornando-se mais suave a partir desse ponto. Portanto, os dados sugerem a existência de 3 grupos naturais, pois adicionar mais clusters gera apenas pequenas melhorias na compactação dos grupos.
-
+O gráfico indica uma redução significativa da inércia até k = 3, sugerindo três grupos naturais.
 
 ---
 
-3.2 (0,7 pt) — K-Means + PCA
-
-Código
+Questão 3.2 — K-Means + PCA
 
 from sklearn.decomposition import PCA
 
-# K-Means
-kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+kmeans = KMeans(
+    n_clusters=3,
+    random_state=42,
+    n_init=10
+)
+
 clusters = kmeans.fit_predict(X_scaled)
 
-# PCA para visualização
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_scaled)
 
 plt.figure(figsize=(7,5))
-plt.scatter(X_pca[:,0], X_pca[:,1], c=clusters)
+plt.scatter(
+    X_pca[:,0],
+    X_pca[:,1],
+    c=clusters
+)
+
 plt.xlabel("Componente Principal 1")
 plt.ylabel("Componente Principal 2")
-plt.title("Clusters de sementes (PCA)")
+plt.title("Clusters de sementes")
 plt.show()
 
 Resposta
 
-Após o escalonamento e a aplicação do PCA, observa-se uma separação relativamente clara entre os 3 grupos, indicando que as medidas geométricas são suficientes para distinguir diferentes tipos de sementes de trigo.
-
+Após o escalonamento e aplicação do PCA, observa-se uma boa separação entre os três grupos, indicando que as características geométricas distinguem adequadamente as variedades de sementes.
 
 ---
 
-3.3 (0,8 pt) — Caracterização dos grupos e aplicação
-
-Código
+Questão 3.3 — Caracterização dos Clusters
 
 df_cluster = df.copy()
+
 df_cluster['Cluster'] = clusters
 
-# Média de cada característica por grupo
 print(df_cluster.groupby('Cluster').mean())
 
 Caracterização
 
-Cluster 0: sementes com maior área, comprimento e largura, indicando grãos maiores.
+Cluster 0
 
-Cluster 1: sementes com medidas intermediárias e formato equilibrado.
+- Maior área
+- Maior comprimento
+- Maior largura
 
-Cluster 2: sementes menores, com menor área e comprimento e maior variação na assimetria.
+Representa sementes maiores.
 
+Cluster 1
 
-Aplicação real
+- Medidas intermediárias
+- Formato equilibrado
 
-Uma cooperativa agrícola pode utilizar essa segmentação para classificar automaticamente lotes de sementes, separando variedades com características semelhantes para comercialização, armazenamento e plantio. Essa estratégia melhora o controle de qualidade, permite definir preços diferenciados e auxilia na seleção de sementes mais adequadas para diferentes condições de cultivo e produtividade.
+Cluster 2
+
+- Menor área
+- Menor comprimento
+- Maior variação de assimetria
+
+Aplicação
+
+Uma cooperativa agrícola pode utilizar essa segmentação para:
+
+- classificação automática de lotes;
+- controle de qualidade;
+- definição de preços;
+- seleção de sementes para diferentes condições de plantio.
 
 ---
-4.1 (0,8 pt) — Curva do Overfitting
 
-Código
+Questão 4.1 — Curva de Overfitting
 
-from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
-import matplotlib.pyplot as plt
-
-X = df.drop('Diabetes', axis=1)
-y = df['Diabetes']
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
-)
 
 treino = []
 teste = []
 
 for profundidade in range(1, 21):
-    arvore = DecisionTreeClassifier(max_depth=profundidade, random_state=42)
+
+    arvore = DecisionTreeClassifier(
+        max_depth=profundidade,
+        random_state=42
+    )
+
     arvore.fit(X_train, y_train)
 
-    treino.append(accuracy_score(y_train, arvore.predict(X_train)))
-    teste.append(accuracy_score(y_test, arvore.predict(X_test)))
+    treino.append(
+        accuracy_score(
+            y_train,
+            arvore.predict(X_train)
+        )
+    )
+
+    teste.append(
+        accuracy_score(
+            y_test,
+            arvore.predict(X_test)
+        )
+    )
 
 plt.figure(figsize=(8,5))
+
 plt.plot(range(1,21), treino, label="Treino")
 plt.plot(range(1,21), teste, label="Teste")
-plt.xlabel("Profundidade da árvore")
+
+plt.xlabel("Profundidade")
 plt.ylabel("Acurácia")
+
 plt.title("Curva de Overfitting")
+
 plt.legend()
+
 plt.show()
 
-Resposta:
+Resposta
 
-Observando o gráfico, o overfitting começa quando a acurácia do treino continua aumentando enquanto a acurácia do teste deixa de melhorar e passa a diminuir. No conjunto de diabetes, isso normalmente ocorre por volta de 5 a 7 níveis de profundidade, indicando que árvores muito profundas passam a memorizar o conjunto de treino.
-
+O overfitting normalmente começa entre profundidades 5 e 7, quando a acurácia de treino continua aumentando enquanto a de teste deixa de melhorar.
 
 ---
 
-4.2 (0,6 pt) — Profundidade ideal com validação cruzada
-
-Código
+Questão 4.2 — Profundidade Ideal
 
 from sklearn.model_selection import cross_val_score
 import numpy as np
 
 medias = []
 
-for profundidade in range(1,21):
+for profundidade in range(1, 21):
+
     modelo = DecisionTreeClassifier(
         max_depth=profundidade,
         random_state=42
@@ -380,44 +473,61 @@ for profundidade in range(1,21):
 
 melhor = np.argmax(medias) + 1
 
-print("Melhor profundidade:", melhor)
-print("Acurácia média:", max(medias))
+print(melhor)
+print(max(medias))
 
-Resposta:
+Resposta
 
-A profundidade ideal é aquela que apresenta a maior média de acurácia na validação cruzada. Esse método é mais confiável do que escolher apenas olhando o gráfico, pois avalia o desempenho do modelo em diferentes divisões dos dados, reduzindo o risco de uma escolha influenciada por uma única amostra.
-
-
----
-
-4.3 (0,6 pt) — O que é overfitting? (Resposta original)
-
-Analogia:
-
-Imagine um estudante que vai fazer uma prova de matemática. Em vez de aprender como resolver os exercícios, ele decora todas as respostas do caderno de casa. No dia da prova, quando aparecem questões um pouco diferentes, ele não sabe resolver porque apenas memorizou os exemplos anteriores. O modelo com overfitting faz exatamente isso: ele "decora" os dados de treino, mas tem dificuldade para lidar com novos casos.
-
-Três formas de combater o overfitting:
-
-1. Limitar a complexidade do modelo (por exemplo, reduzir a profundidade da árvore).
-
-
-2. Utilizar validação cruzada para escolher os melhores parâmetros.
-
-
-3. Aumentar a quantidade ou a diversidade dos dados de treinamento (ou aplicar técnicas de regularização).
-
-
-
-Essa analogia destaca que um bom modelo deve aprender as regras gerais do problema, e não apenas memorizar os exemplos que já viu.
+A profundidade ideal é aquela que apresenta a maior média de acurácia na validação cruzada, fornecendo uma estimativa mais confiável do desempenho do modelo.
 
 ---
 
-5.1 (0,4 pt) — Prompts utilizados
-Prompt: "Como tratar valores 0 biologicamente impossíveis no dataset Pima Indians Diabetes?"
-Objetivo: Identificar uma estratégia adequada de pré-processamento dos dados e justificar a substituição dos valores por NaN e posterior imputação pela mediana.
-Prompt: "Como aplicar K-Means com PCA para visualizar clusters em duas dimensões?"
-Objetivo: Revisar a sequência correta de escalonamento dos dados, aplicação do K-Means e redução de dimensionalidade com PCA para gerar uma visualização dos grupos.
-5.2 (0,3 pt) — O LLM errou ou sugeriu algo inadequado?
-Sim. Em uma das respostas, o LLM sugeriu utilizar o Random Forest como melhor modelo sem comparar efetivamente os resultados obtidos na validação cruzada. Percebemos que essa escolha não poderia ser feita antes da execução dos experimentos e ajustamos a resposta para selecionar o modelo com base na métrica de recall obtida na avaliação.
-5.3 (0,3 pt) — Decisão tomada sem ajuda do LLM
-A decisão de priorizar o recall como principal métrica na previsão de diabetes foi nossa, considerando o contexto do problema. Entendemos que um falso negativo (não identificar um paciente com diabetes) pode trazer consequências mais graves do que um falso positivo, e essa escolha depende da interpretação do cenário e dos objetivos da aplicação, não apenas da geração automática de código pelo LLM.
+Questão 4.3 — O que é Overfitting?
+
+Analogia
+
+Imagine um estudante que decora todas as respostas dos exercícios, mas não aprende os conceitos.
+
+Quando recebe questões novas, ele não consegue resolvê-las.
+
+Da mesma forma, um modelo com overfitting memoriza os dados de treinamento e apresenta baixo desempenho em novos exemplos.
+
+Formas de combater
+
+1. Reduzir a complexidade do modelo;
+2. Utilizar validação cruzada;
+3. Aumentar a quantidade ou diversidade dos dados e aplicar regularização.
+
+---
+
+Questão 5.1 — Prompts Utilizados
+
+Prompt 1
+
+«Como tratar valores 0 biologicamente impossíveis no dataset Pima Indians Diabetes?»
+
+Objetivo: definir uma estratégia adequada de pré-processamento utilizando NaN e imputação pela mediana.
+
+Prompt 2
+
+«Como aplicar K-Means com PCA para visualizar clusters em duas dimensões?»
+
+Objetivo: revisar o fluxo de escalonamento, agrupamento e redução de dimensionalidade para visualização.
+
+---
+
+Questão 5.2 — O LLM errou?
+
+Sim.
+
+O modelo sugeriu utilizar Random Forest como melhor algoritmo antes da comparação experimental.
+
+A resposta foi corrigida para que a escolha fosse baseada no maior Recall obtido na validação cruzada, respeitando o método científico.
+
+---
+
+Questão 5.3 — Decisão Tomada sem Ajuda do LLM
+
+A decisão de priorizar o Recall como principal métrica foi tomada considerando o contexto do problema.
+
+Como um falso negativo pode impedir o diagnóstico precoce do diabetes, optou-se por privilegiar a capacidade do modelo de identificar corretamente pacientes doentes, mesmo que isso aumente a quantidade de falsos positivos.
