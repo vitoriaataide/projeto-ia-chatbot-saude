@@ -1,4 +1,4 @@
-## Cenário A — doença rara (2%), falso negativo crítico
+## Cenário A — Um hospital quer prever se um paciente tem uma doença rara (afeta 2% dos casos) a partir de 30 exames. Falso negativo (não detectar a doença) é catastrófico.
 
 **(a) Técnica:**  
 Classificação supervisionada (ex: Gradient Boosting, Random Forest ou Regressão Logística com ajuste de limiar)
@@ -11,7 +11,7 @@ Como a doença é rara e o custo de não detectar um caso é altíssimo, o foco 
 
 ---
 
-## Cenário B — segmentação sem rótulos
+## Cenário B — Uma rede de farmácias tem dados de 50 mil clientes (idade, frequência, valor gasto) e quer descobrir grupos naturais de comportamento para campanha.
 
 **(a) Técnica:**  
 Aprendizado não supervisionado (ex: K-Means ou Gaussian Mixture Models)
@@ -24,7 +24,7 @@ Como não existem rótulos, é necessário identificar padrões naturais nos dad
 
 ---
 
-## Cenário C — previsão de valor contínuo
+## Cenário C — Uma fintech quer prever o valor (em R$) que um cliente vai gastar no próximo mês, baseado no histórico. A saída é um número contínuo.
 
 **(a) Técnica:**  
 Regressão (ex: Regressão Linear, Random Forest Regressor, XGBoost Regressor)
@@ -37,7 +37,7 @@ O alvo é numérico contínuo (valor em R$), portanto trata-se de um problema de
 
 ---
 
-## Cenário D — classificação tabular (100k linhas, 40 colunas)
+## Cenário D — Você tem um dataset tabular com 100 mil linhas e 40 colunas para um problema de classificação. Quer a melhor performance possível sem semanas de trabalho.
 
 **(a) Técnica:**  
 Modelos baseados em árvores com boosting (ex: XGBoost, LightGBM, CatBoost)
@@ -50,7 +50,7 @@ Redes neurais normalmente exigem mais ajuste de hiperparâmetros, mais dados e m
 
 ---
 
-## Cenário E — 99% treino vs 68% teste
+## Cenário E — Um modelo de previsão de crédito atinge 99% de acurácia no treino e 68% no teste.
 
 **(a) Diagnóstico:**  
 Overfitting (alta variância)
