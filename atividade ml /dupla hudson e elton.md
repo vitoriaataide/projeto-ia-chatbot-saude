@@ -294,3 +294,28 @@ Técnicas para reduzir overfitting:
 Limitar a complexidade do modelo (ex: max_depth em árvores)
 Usar regularização (L1/L2)
 Aumentar dados de treino ou usar validação cruzada / early stopping
+
+Questão 5 — Uso da IA (LLM)
+5.1 — Prompts utilizados
+
+Durante a atividade, utilizei o LLM principalmente como apoio técnico para acelerar a implementação e esclarecer decisões de modelagem. Alguns exemplos de prompts foram:
+
+“Como tratar valores zero que representam dados faltantes em um dataset de saúde?”
+“Quais modelos são mais indicados para dados tabulares com variável alvo binária?”
+“Qual métrica é mais adequada quando o custo de falso negativo é alto em um problema de diagnóstico médico?”
+
+Esses prompts ajudaram a orientar decisões iniciais, mas as escolhas finais foram baseadas na interpretação do problema.
+
+5.2 — Erros ou limitações do LLM
+
+Em alguns momentos, o LLM sugeriu abordagens que precisei ajustar. Por exemplo, inicialmente foi sugerido priorizar acurácia como métrica principal no problema de diabetes, mas isso não é adequado para dados desbalanceados e com alto custo de falsos negativos.
+
+Também houve sugestões genéricas de modelos sem considerar o contexto do dataset (como recomendar redes neurais sem necessidade real para dados tabulares pequenos).
+
+Esses pontos foram corrigidos após análise crítica do problema e revisão das aulas.
+
+5.3 — Decisão totalmente minha
+
+A principal decisão que tomei sem depender do LLM foi a escolha da métrica de avaliação final (priorizar recall em vez de acurácia no problema de diagnóstico de diabetes).
+
+Essa decisão não poderia ser automatizada pelo LLM porque depende da interpretação do impacto real dos erros (falso negativo sendo mais grave que falso positivo), o que exige entendimento do contexto médico e não apenas conhecimento técnico.
