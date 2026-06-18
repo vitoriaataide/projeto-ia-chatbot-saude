@@ -293,3 +293,169 @@ As variáveis que normalmente apresentam maior importância são:
 
 Esse resultado é coerente com o conhecimento clínico, pois níveis elevados de glicose são um dos principais indicadores do diabetes. Além disso, IMC elevado e idade avançada são fatores de risco conhecidos e estão associados ao aumento da resistência à insulina e da probabilidade de desenvolver a doença.
 
+# Questão 3 — Aprendizado Não Supervisionado
+
+---
+
+# 3.1 (0,5 pt) — Método do Cotovelo
+
+## Código
+
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Remover a coluna de variedade
+X = df.drop("Variedade", axis=1)
+
+# Escalonamento dos dados
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Método do Cotovelo
+inercia = []
+
+for k in range(1, 11):
+    kmeans = KMeans(
+        n_clusters=k,
+        random_state=42,
+        n_init=10
+    )
+
+    kmeans.fit(X_scaled)
+    inercia.append(kmeans.inertia_)
+
+plt.figure(figsize=(8, 5))
+plt.plot(range(1, 11), inercia, marker="o")
+plt.xlabel("Número de clusters")
+plt.ylabel("Inércia")
+plt.title("Método do Cotovelo")
+plt.show()
+```
+
+## Resposta
+
+O gráfico do Método do Cotovelo apresenta uma redução acentuada da inércia até **k = 3**, tornando-se mais suave a partir desse ponto.
+
+Portanto, os dados sugerem a existência de **três grupos naturais**, pois adicionar mais clusters gera apenas pequenas melhorias na compactação dos grupos.
+
+---
+
+# 3.2 (0,7 pt) — K-Means + PCA
+
+## Código
+
+```python
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+
+# Aplicação do K-Means
+kmeans = KMeans(
+    n_clusters=3,
+    random_state=42,
+    n_init=10
+)
+
+clusters = kmeans.fit_predict(X_scaled)
+
+# Redução de dimensionalidade com PCA
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+# Visualização
+plt.figure(figsize=(7, 5))
+
+plt.scatter(
+    X_pca[:, 0],
+    X_pca[:, 1],
+    c=clusters
+)
+
+plt.xlabel("Componente Principal 1")
+plt.ylabel("Componente Principal 2")
+plt.title("Clusters de Sementes (PCA)")
+
+plt.show()
+```
+
+## Resposta
+
+Após o escalonamento e a aplicação do PCA, observa-se uma separação relativamente clara entre os três grupos.
+
+Esse resultado indica que as características geométricas das sementes são suficientes para distinguir diferentes variedades de trigo, permitindo uma segmentação eficiente utilizando o algoritmo K-Means.
+
+---
+
+# 3.3 (0,8 pt) — Caracterização dos Grupos e Aplicação
+
+## Código
+
+```python
+df_cluster = df.copy()
+
+df_cluster["Cluster"] = clusters
+
+# Média das características por grupo
+print(df_cluster.groupby("Cluster").mean())
+```
+
+## Caracterização dos Clusters
+
+### Cluster 0
+
+Características:
+
+- Maior área;
+- Maior comprimento;
+- Maior largura.
+
+Interpretação:
+
+Representa sementes de maior porte.
+
+---
+
+### Cluster 1
+
+Características:
+
+- Medidas intermediárias;
+- Formato equilibrado;
+- Valores médios para comprimento e largura.
+
+Interpretação:
+
+Representa sementes com características intermediárias.
+
+---
+
+### Cluster 2
+
+Características:
+
+- Menor área;
+- Menor comprimento;
+- Maior variação na assimetria.
+
+Interpretação:
+
+Representa sementes menores e com maior irregularidade no formato.
+
+---
+
+# Aplicação no Mundo Real
+
+Uma cooperativa agrícola pode utilizar essa segmentação para:
+
+- Classificar automaticamente lotes de sementes;
+- Separar variedades com características semelhantes;
+- Melhorar o controle de qualidade;
+- Definir estratégias de armazenamento;
+- Estabelecer preços diferenciados;
+- Selecionar sementes mais adequadas para diferentes condições de plantio e produtividade.
+
+A utilização de técnicas de agrupamento permite automatizar processos que tradicionalmente seriam realizados por inspeção manual, aumentando a eficiência e reduzindo custos operacionais.
+
+---
