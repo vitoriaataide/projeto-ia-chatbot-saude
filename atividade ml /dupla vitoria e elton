@@ -1,0 +1,64 @@
+## Cenário A — doença rara (2%), falso negativo crítico
+
+**(a) Técnica:**  
+Classificação supervisionada (ex: Gradient Boosting, Random Forest ou Regressão Logística com ajuste de limiar)
+
+**(b) Métrica:**  
+Recall (sensibilidade) e PR-AUC
+
+**(c) Justificativa:**  
+Como a doença é rara e o custo de não detectar um caso é altíssimo, o foco deve ser maximizar a detecção de positivos, mesmo aceitando mais falsos positivos; por isso recall e métricas de precisão-recall são mais adequadas que acurácia.
+
+---
+
+## Cenário B — segmentação sem rótulos
+
+**(a) Técnica:**  
+Aprendizado não supervisionado (ex: K-Means ou Gaussian Mixture Models)
+
+**(b) Como escolher o número de clusters:**  
+Método do cotovelo (Elbow Method), Silhouette Score e validação por interpretação de negócio
+
+**(c) Justificativa:**  
+Como não existem rótulos, é necessário identificar padrões naturais nos dados, e o número de clusters deve equilibrar coesão interna e separação entre grupos, além de fazer sentido para uso em campanhas.
+
+---
+
+## Cenário C — previsão de valor contínuo
+
+**(a) Técnica:**  
+Regressão (ex: Regressão Linear, Random Forest Regressor, XGBoost Regressor)
+
+**(b) Métrica:**  
+MAE (Mean Absolute Error) ou RMSE (Root Mean Squared Error)
+
+**(c) Justificativa:**  
+O alvo é numérico contínuo (valor em R$), portanto trata-se de um problema de regressão; MAE é mais interpretável, enquanto RMSE penaliza mais erros grandes.
+
+---
+
+## Cenário D — classificação tabular (100k linhas, 40 colunas)
+
+**(a) Técnica:**  
+Modelos baseados em árvores com boosting (ex: XGBoost, LightGBM, CatBoost)
+
+**(b) Justificativa:**  
+Esses modelos geralmente apresentam excelente desempenho em dados tabulares, exigem menos engenharia de features e são eficientes em treinamento.
+
+**(c) Por que não rede neural:**  
+Redes neurais normalmente exigem mais ajuste de hiperparâmetros, mais dados e maior custo computacional, e raramente superam boosting em dados tabulares estruturados.
+
+---
+
+## Cenário E — 99% treino vs 68% teste
+
+**(a) Diagnóstico:**  
+Overfitting (alta variância)
+
+**(b) 3 formas de resolver:**  
+- Aplicar regularização (L1/L2, limitar profundidade de árvores, pruning)  
+- Reduzir complexidade do modelo (simplificação ou seleção de variáveis)  
+- Obter mais dados ou usar validação cruzada mais robusta  
+
+**(c) Justificativa:**  
+O modelo está se ajustando demais aos dados de treino e falha em generalizar para dados novos, indicando baixa capacidade de generalização.
