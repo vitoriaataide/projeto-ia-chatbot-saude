@@ -309,3 +309,15 @@ Cluster 2: sementes menores, com menor área e comprimento e maior variação na
 Aplicação real
 
 Uma cooperativa agrícola pode utilizar essa segmentação para classificar automaticamente lotes de sementes, separando variedades com características semelhantes para comercialização, armazenamento e plantio. Essa estratégia melhora o controle de qualidade, permite definir preços diferenciados e auxilia na seleção de sementes mais adequadas para diferentes condições de cultivo e produtividade.
+
+---
+
+5.1 (0,4 pt) — Prompts utilizados
+Prompt: "Como tratar valores 0 biologicamente impossíveis no dataset Pima Indians Diabetes?"
+Objetivo: Identificar uma estratégia adequada de pré-processamento dos dados e justificar a substituição dos valores por NaN e posterior imputação pela mediana.
+Prompt: "Como aplicar K-Means com PCA para visualizar clusters em duas dimensões?"
+Objetivo: Revisar a sequência correta de escalonamento dos dados, aplicação do K-Means e redução de dimensionalidade com PCA para gerar uma visualização dos grupos.
+5.2 (0,3 pt) — O LLM errou ou sugeriu algo inadequado?
+Sim. Em uma das respostas, o LLM sugeriu utilizar o Random Forest como melhor modelo sem comparar efetivamente os resultados obtidos na validação cruzada. Percebemos que essa escolha não poderia ser feita antes da execução dos experimentos e ajustamos a resposta para selecionar o modelo com base na métrica de recall obtida na avaliação.
+5.3 (0,3 pt) — Decisão tomada sem ajuda do LLM
+A decisão de priorizar o recall como principal métrica na previsão de diabetes foi nossa, considerando o contexto do problema. Entendemos que um falso negativo (não identificar um paciente com diabetes) pode trazer consequências mais graves do que um falso positivo, e essa escolha depende da interpretação do cenário e dos objetivos da aplicação, não apenas da geração automática de código pelo LLM.
