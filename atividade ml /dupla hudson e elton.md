@@ -145,7 +145,7 @@ Outros fatores relevantes como IMC e idade também aparecem como preditores impo
 
 # Clusterização — Segmentação de Clientes (Cooperativa Agrícola)
 
-## 3.1 — Método do cotovelo (Elbow Method)
+### 3.1 — Método do cotovelo (Elbow Method)
 
 ### Objetivo
 Determinar o número ideal de clusters observando a inércia (SSE) do K-Means.
