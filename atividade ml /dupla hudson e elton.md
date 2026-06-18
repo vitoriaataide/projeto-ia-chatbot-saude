@@ -38,11 +38,11 @@
 **(c) Justificativa:** O modelo está se ajustando excessivamente aos dados de treino, mas não generaliza bem para dados novos, indicando baixa capacidade de generalização.
 
 
-# 🔬 Pipeline Supervisionado — Diabetes (Pima Indians)
+# Pipeline Supervisionado — Diabetes (Pima Indians)
 
 ## 2.1 — EDA (Exploração e tratamento de dados)
 
-### 🔍 Problema identificado
+### Problema identificado
 O dataset contém valores **0 em variáveis onde isso não é biologicamente plausível**, indicando valores ausentes codificados incorretamente:
 
 - Glicose = 0 ❌  
@@ -55,7 +55,7 @@ Esses valores não representam medições reais e devem ser tratados como **miss
 
 ---
 
-### 🛠️ Tratamento aplicado
+### Tratamento aplicado
 
 ```python
 import numpy as np
@@ -117,37 +117,37 @@ print(confusion_matrix(y_test, y_pred))
 
 print(classification_report(y_test, y_pred))
 
-⚠️ Interpretação clínica do erro
+ Interpretação clínica do erro
 
 Em testes de diabetes:
 
-❌ Falso negativo (FN) = paciente doente classificado como saudável → muito grave
-⚠️ Falso positivo (FP) = paciente saudável classificado como doente → menos grave
+Falso negativo (FN) = paciente doente classificado como saudável → muito grave
+Falso positivo (FP) = paciente saudável classificado como doente → menos grave
 
-👉 Portanto, a métrica mais importante é:
+Portanto, a métrica mais importante é:
 
 Recall (sensibilidade)
 
 Porque é preferível investigar um paciente saudável do que deixar um paciente doente sem diagnóstico.
 
 2.4 — Interpretação do modelo
-📌 Variável mais importante
+Variável mais importante
 
 Os modelos baseados em árvores (Random Forest / Gradient Boosting) indicam que a variável mais importante é:
 
-👉 Glicose
+Glicose
 
-🧠 Conexão com o mundo real
+Conexão com o mundo real
 
 A glicose em jejum é um dos principais indicadores clínicos de diabetes, pois reflete diretamente a capacidade do organismo de regular açúcar no sangue. O modelo confirma esse conhecimento médico ao atribuir maior peso a essa variável.
 
 Outros fatores relevantes como IMC e idade também aparecem como preditores importantes, o que está alinhado com fatores de risco metabólicos conhecidos na literatura médica.
 
-# 🌾 Clusterização — Segmentação de Clientes (Cooperativa Agrícola)
+# Clusterização — Segmentação de Clientes (Cooperativa Agrícola)
 
 ## 3.1 — Método do cotovelo (Elbow Method)
 
-### 📊 Objetivo
+### Objetivo
 Determinar o número ideal de clusters observando a inércia (SSE) do K-Means.
 
 ```python
@@ -196,7 +196,7 @@ df_cluster["Cluster"] = labels
 perfil = df_cluster.groupby("Cluster").mean()
 perfil
 
-🌾 Interpretação dos grupos (exemplo típico)
+Interpretação dos grupos (exemplo típico)
 Cluster 0 — Produtores de baixo rendimento
 Menor produtividade média
 Menor consistência nos indicadores
@@ -208,21 +208,21 @@ Cluster 2 — Alta performance agrícola
 Maior produtividade média
 Indicadores mais estáveis e eficientes
 Uso mais intensivo de tecnologia ou melhores condições de solo
-🚜 Aplicação prática na cooperativa agrícola
+Aplicação prática na cooperativa agrícola
 
 A cooperativa pode usar essa segmentação para:
 
-🎯 Campanhas direcionadas
+Campanhas direcionadas
 Oferecer assistência técnica diferente para cada grupo
-🌱 Distribuição de insumos
+Distribuição de insumos
 Fertilizantes e sementes mais avançadas para clusters de maior potencial
-📈 Estratégia de crescimento
+Estratégia de crescimento
 Treinamento específico para produtores de baixo desempenho
 Programas de otimização para intermediários
 
-👉 Em resumo, os clusters permitem transformar dados brutos em estratégias agrícolas personalizadas, aumentando produtividade e eficiência da cooperativa.
+Em resumo, os clusters permitem transformar dados brutos em estratégias agrícolas personalizadas, aumentando produtividade e eficiência da cooperativa.
 
-# 🌳 Árvores de Decisão — Overfitting
+# Árvores de Decisão — Overfitting
 
 ## 4.1 — Curva de overfitting (profundidade 1 a 20)
 
@@ -258,11 +258,11 @@ plt.title("Curva de Overfitting")
 plt.legend()
 plt.show()
 
-📌 Interpretação visual
+Interpretação visual
 Em profundidades baixas, o modelo é simples demais (underfitting).
 A partir de certo ponto, a acurácia de treino continua subindo enquanto a de teste começa a cair.
 
-👉 O overfitting geralmente começa quando:
+O overfitting geralmente começa quando:
 
 treino sobe continuamente
 teste estabiliza ou começa a cair
@@ -280,7 +280,7 @@ for d in depths:
 best_depth = depths[mean_scores.index(max(mean_scores))]
 best_depth
 
-📌 Justificativa
+Justificativa
 
 A profundidade ideal é aquela que maximiza a performance média na validação cruzada, pois isso indica melhor capacidade de generalização em dados não vistos, e não apenas ajuste ao conjunto de treino.
 
@@ -290,7 +290,7 @@ Overfitting acontece quando o modelo aprende “demais” os dados de treino, qu
 
 Em outras palavras, o modelo perde a capacidade de generalizar porque ficou muito específico ao conjunto de treino.
 
-🧠 Técnicas para reduzir overfitting:
+Técnicas para reduzir overfitting:
 Limitar a complexidade do modelo (ex: max_depth em árvores)
 Usar regularização (L1/L2)
 Aumentar dados de treino ou usar validação cruzada / early stopping
