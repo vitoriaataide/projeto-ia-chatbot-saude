@@ -1,211 +1,38 @@
-# 🧠 Atividade Avaliativa · Lab 1 · Machine Learning (UFPA 2026)
+## Escolha da Técnica
 
-Atividade prática de Machine Learning com foco em **escolha de técnicas, justificativa e interpretação de resultados**, simulando um fluxo real de trabalho em ciência de dados.
-
----
-
-## 🎯 Objetivo
-
-O objetivo desta atividade não é apenas implementar modelos, mas **saber escolher a técnica correta para cada problema e justificar as decisões tomadas**, como ocorre no mercado de IA.
+### Cenário A — Doença rara (2%) e falso negativo crítico  
+**(a) Abordagem:** Classificação supervisionada (ex: Gradient Boosting, Random Forest ou Regressão Logística com ajuste de limiar e/ou pesos de classe)  
+**(b) Métrica:** Recall (sensibilidade) e/ou PR-AUC  
+**(c) Justificativa:** Como a doença é rara e o custo de não detectar um caso positivo é muito alto, o objetivo principal é maximizar a detecção de positivos, mesmo com aumento de falsos positivos.
 
 ---
 
-## 🤖 Uso de LLM (IA)
-
-Ferramentas como ChatGPT, Claude e Copilot foram utilizadas como apoio técnico para:
-
-- Consulta de sintaxe e bibliotecas
-- Sugestão de estruturas de código
-- Apoio em debugging
-- Revisão de conceitos
-
-⚠️ No entanto, todas as decisões de modelagem, métricas e interpretações foram feitas com base em análise própria.
+### Cenário B — Segmentação de clientes sem rótulos  
+**(a) Abordagem:** Clustering não supervisionado (ex: K-Means, Gaussian Mixture Models)  
+**(b) Como decidir o número de grupos:** método do cotovelo (elbow), silhouette score e validação com critérios de negócio  
+**(c) Justificativa:** Não há rótulos disponíveis, então o objetivo é encontrar padrões naturais de comportamento nos dados, usando métricas internas para avaliar qualidade dos clusters.
 
 ---
 
-# 📊 Questão 1 — Escolha da Técnica
-
-## 🧭 Cenário A — Doença rara
-
-- **Técnica:** Classificação supervisionada (ex: Logistic Regression, Random Forest, XGBoost)
-- **Métrica:** Recall (prioritário)
-- **Justificativa:** Falsos negativos são críticos, pois deixar de identificar um paciente doente pode ter consequências graves.
+### Cenário C — Previsão de valor gasto (regressão)  
+**(a) Abordagem:** Regressão (ex: Regressão Linear, Random Forest Regressor, XGBoost Regressor)  
+**(b) Métrica:** MAE (Mean Absolute Error) ou RMSE (Root Mean Squared Error)  
+**(c) Justificativa:** O alvo é uma variável contínua (valor em R$), então o problema é de regressão, e as métricas devem medir o erro numérico direto na mesma escala.
 
 ---
 
-## 🧭 Cenário B — Segmentação de clientes
-
-- **Técnica:** Aprendizado não supervisionado (K-Means / GMM)
-- **Escolha de clusters:** Elbow Method + Silhouette Score
-- **Justificativa:** Não há rótulos; buscamos padrões naturais de comportamento.
+### Cenário D — Dataset tabular grande com foco em performance  
+**(a) Abordagem:** Modelos baseados em Gradient Boosting (ex: XGBoost, LightGBM, CatBoost)  
+**(b) Justificativa:** Esses algoritmos costumam ter excelente desempenho em dados tabulares, exigem menos engenharia de features e tuning do que redes neurais, e são mais eficientes para esse tipo de problema.
 
 ---
 
-## 🧭 Cenário C — Previsão de valor contínuo
-
-- **Técnica:** Regressão (Linear Regression, Random Forest Regressor, XGBoost Regressor)
-- **Métrica:** MAE ou RMSE
-- **Justificativa:** O objetivo é prever valores numéricos contínuos.
-
----
-
-## 🧭 Cenário D — Dataset grande e tabular
-
-- **Técnica:** Modelos baseados em árvores (Random Forest, Gradient Boosting, XGBoost, LightGBM)
-- **Justificativa:** Alta performance em dados tabulares com baixo custo computacional comparado a redes neurais.
-
----
-
-## 🧭 Cenário E — Overfitting em classificação
-
-- **Diagnóstico:** Overfitting (alta variância)
-- **Soluções:**
-  - Redução da profundidade do modelo
-  - Regularização (L1/L2)
-  - Validação cruzada
-  - Mais dados de treinamento
-
----
-
-# 🧪 Questão 2 — Pipeline de Supervisionado (Diabetes)
-
-## 🔎 2.1 EDA e tratamento de dados
-
-Durante a análise do dataset, foi identificado que alguns atributos possuem valores 0 impossíveis biologicamente (ex: glicose, pressão arterial).
-
-- Estratégia adotada:
-  - Substituição de valores 0 por NaN
-  - Imputação pela mediana
-
-**Justificativa:** zeros representam ausência de medição e não valores reais.
-
----
-
-## 🤖 2.2 Modelagem
-
-Modelos utilizados:
-
-- Logistic Regression
-- Random Forest
-- XGBoost
-
-📌 Observação:
-- Logistic Regression requer escalonamento
-- Modelos baseados em árvores não são sensíveis à escala
-
----
-
-## 📈 2.3 Avaliação
-
-- Métricas utilizadas:
-  - Recall (principal)
-  - Precision
-  - Matriz de confusão
-
-**Justificativa:** Em diagnóstico médico, o custo de falsos negativos é maior que falsos positivos.
-
----
-
-## 🧠 2.4 Interpretação
-
-As variáveis mais relevantes para previsão de diabetes foram:
-
-- Glicose
-- IMC
-- Idade
-
-Esses fatores estão alinhados com a literatura médica, pois estão diretamente relacionados ao metabolismo da glicose e risco de resistência à insulina.
-
----
-
-# 🛰️ Questão 3 — Clustering (Sementes de Trigo)
-
-## 📊 3.1 Método do cotovelo
-
-O método do cotovelo foi utilizado para identificar o número ideal de clusters.
-
----
-
-## 🔬 3.2 K-Means + PCA
-
-- Dados padronizados com StandardScaler
-- Aplicação do K-Means
-- Redução de dimensionalidade com PCA para visualização
-
----
-
-## 🌾 3.3 Interpretação dos clusters
-
-Os clusters representam diferentes padrões geométricos de grãos de trigo:
-
-- Cluster 1: grãos maiores e mais alongados
-- Cluster 2: grãos médios
-- Cluster 3: grãos mais compactos
-
-📌 Aplicação prática: classificação de qualidade e automação agrícola.
-
----
-
-# 🔍 Questão 4 — Diagnóstico de Overfitting
-
-## 📉 4.1 Curva de complexidade
-
-Foi observada a relação entre profundidade da árvore e desempenho:
-
-- Treino: aumenta continuamente
-- Teste: atinge pico e depois cai
-
-📌 Indicação de overfitting a partir de profundidade intermediária.
-
----
-
-## 🎯 4.2 Melhor profundidade
-
-A profundidade ideal foi escolhida com base em validação cruzada, minimizando erro médio.
-
----
-
-## 🧠 4.3 Conceito de overfitting
-
-Overfitting ocorre quando o modelo aprende padrões específicos dos dados de treino, incluindo ruído, prejudicando sua capacidade de generalização.
-
-📌 Analogia:
-É como decorar respostas de exercícios em vez de entender o conteúdo — funciona para provas iguais, mas falha em questões novas.
-
-### Técnicas para reduzir overfitting:
-- Pruning
-- Regularização
-- Redução de complexidade do modelo
-
----
-
-# 🤖 Questão 5 — Uso do LLM
-
-## 🧾 5.1 Exemplos de prompts usados
-
-- “Explique diferença entre precision e recall em problemas médicos”
-- “Como tratar valores zero inválidos em datasets de saúde?”
-
----
-
-## ⚠️ 5.2 Limitações do LLM
-
-Em alguns momentos, o modelo sugeriu métricas inadequadas como acurácia em problema desbalanceado, o que foi corrigido após análise crítica.
-
----
-
-## 🧭 5.3 Decisões próprias
-
-Decisões como escolha de métricas, interpretação clínica e validação dos modelos foram feitas de forma independente, pois exigem conhecimento contextual do problema.
-
----
-
-# 📌 Conclusão
-
-Esta atividade reforça que em Machine Learning o mais importante não é apenas implementar modelos, mas:
-
-- Saber escolher a técnica correta
-- Entender o impacto das decisões
-- Interpretar resultados no contexto do problema real
-
----
+### Cenário E — Overfitting (99% treino vs 68% teste)  
+**(a) Diagnóstico:** Overfitting (alta variância)  
+
+**(b) Formas de resolver:**
+- Reduzir complexidade do modelo (regularização, pruning, limitar profundidade)
+- Aumentar dados ou aplicar data augmentation
+- Usar validação cruzada e técnicas como early stopping
+
+**(c) Justificativa:** O modelo está se ajustando excessivamente aos dados de treino, mas não generaliza bem para dados novos, indicando baixa capacidade de generalização.
