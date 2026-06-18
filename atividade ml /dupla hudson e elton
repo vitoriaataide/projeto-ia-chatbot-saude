@@ -1,0 +1,64 @@
+# Cenário A — Doença rara (2% dos casos) e falso negativo catastrófico
+
+### (a) Técnica/algoritmo
+Classificação supervisionada utilizando algoritmos como Random Forest ou XGBoost, com tratamento para classes desbalanceadas.
+
+### (b) Métrica de avaliação
+Recall (Sensibilidade).
+
+### (c) Justificativa
+Como a doença afeta apenas 2% dos pacientes e um falso negativo pode ter consequências graves, o principal objetivo é identificar o maior número possível de casos positivos. Por isso, o recall é mais importante do que a acurácia.
+
+---
+
+# Cenário B — Descobrir grupos naturais de clientes
+
+### (a) Técnica/algoritmo
+Aprendizado não supervisionado com K-Means.
+
+### (b) Como decidir o número de grupos?
+Utilizando o Método do Cotovelo (Elbow Method) e/ou o Coeficiente de Silhueta (Silhouette Score).
+
+### (c) Justificativa
+Como não existem rótulos, o objetivo é encontrar padrões de comportamento nos clientes. Essas métricas ajudam a escolher um número adequado de grupos com boa separação e coesão.
+
+---
+
+# Cenário C — Previsão de gasto mensal
+
+### (a) Técnica/algoritmo
+Regressão.
+
+### (b) Métrica de erro
+RMSE (Root Mean Squared Error) ou MAE (Mean Absolute Error).
+
+### (c) Justificativa
+O valor gasto no próximo mês é uma variável numérica contínua, caracterizando um problema de regressão. RMSE e MAE permitem medir a diferença entre os valores previstos e os reais.
+
+---
+
+# Cenário D — Dataset tabular com 100 mil linhas e 40 colunas
+
+### (a) Família de algoritmos
+Gradient Boosting baseado em árvores, como XGBoost, LightGBM ou CatBoost.
+
+### (b) Por que não rede neural?
+Redes neurais geralmente exigem mais ajuste de hiperparâmetros, maior poder computacional e nem sempre apresentam melhor desempenho em dados tabulares.
+
+### (c) Justificativa
+Modelos de boosting costumam alcançar excelente performance em bases tabulares estruturadas com menor esforço de desenvolvimento e treinamento.
+
+---
+
+# Cenário E — 99% de acurácia no treino e 68% no teste
+
+### (a) Diagnóstico
+Overfitting (sobreajuste).
+
+### (b) Três formas de resolver
+1. Reduzir a complexidade do modelo.
+2. Aplicar técnicas de regularização.
+3. Utilizar mais dados ou validação cruzada (cross-validation).
+
+### (c) Justificativa
+A diferença significativa entre o desempenho no treino e no teste indica que o modelo aprendeu excessivamente os dados de treinamento e não consegue generalizar adequadamente para novos exemplos.
