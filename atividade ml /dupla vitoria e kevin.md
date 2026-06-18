@@ -311,6 +311,106 @@ Aplicação real
 Uma cooperativa agrícola pode utilizar essa segmentação para classificar automaticamente lotes de sementes, separando variedades com características semelhantes para comercialização, armazenamento e plantio. Essa estratégia melhora o controle de qualidade, permite definir preços diferenciados e auxilia na seleção de sementes mais adequadas para diferentes condições de cultivo e produtividade.
 
 ---
+4.1 (0,8 pt) — Curva do Overfitting
+
+Código
+
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+X = df.drop('Diabetes', axis=1)
+y = df['Diabetes']
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+treino = []
+teste = []
+
+for profundidade in range(1, 21):
+    arvore = DecisionTreeClassifier(max_depth=profundidade, random_state=42)
+    arvore.fit(X_train, y_train)
+
+    treino.append(accuracy_score(y_train, arvore.predict(X_train)))
+    teste.append(accuracy_score(y_test, arvore.predict(X_test)))
+
+plt.figure(figsize=(8,5))
+plt.plot(range(1,21), treino, label="Treino")
+plt.plot(range(1,21), teste, label="Teste")
+plt.xlabel("Profundidade da árvore")
+plt.ylabel("Acurácia")
+plt.title("Curva de Overfitting")
+plt.legend()
+plt.show()
+
+Resposta:
+
+Observando o gráfico, o overfitting começa quando a acurácia do treino continua aumentando enquanto a acurácia do teste deixa de melhorar e passa a diminuir. No conjunto de diabetes, isso normalmente ocorre por volta de 5 a 7 níveis de profundidade, indicando que árvores muito profundas passam a memorizar o conjunto de treino.
+
+
+---
+
+4.2 (0,6 pt) — Profundidade ideal com validação cruzada
+
+Código
+
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+medias = []
+
+for profundidade in range(1,21):
+    modelo = DecisionTreeClassifier(
+        max_depth=profundidade,
+        random_state=42
+    )
+
+    score = cross_val_score(
+        modelo,
+        X,
+        y,
+        cv=5,
+        scoring="accuracy"
+    )
+
+    medias.append(score.mean())
+
+melhor = np.argmax(medias) + 1
+
+print("Melhor profundidade:", melhor)
+print("Acurácia média:", max(medias))
+
+Resposta:
+
+A profundidade ideal é aquela que apresenta a maior média de acurácia na validação cruzada. Esse método é mais confiável do que escolher apenas olhando o gráfico, pois avalia o desempenho do modelo em diferentes divisões dos dados, reduzindo o risco de uma escolha influenciada por uma única amostra.
+
+
+---
+
+4.3 (0,6 pt) — O que é overfitting? (Resposta original)
+
+Analogia:
+
+Imagine um estudante que vai fazer uma prova de matemática. Em vez de aprender como resolver os exercícios, ele decora todas as respostas do caderno de casa. No dia da prova, quando aparecem questões um pouco diferentes, ele não sabe resolver porque apenas memorizou os exemplos anteriores. O modelo com overfitting faz exatamente isso: ele "decora" os dados de treino, mas tem dificuldade para lidar com novos casos.
+
+Três formas de combater o overfitting:
+
+1. Limitar a complexidade do modelo (por exemplo, reduzir a profundidade da árvore).
+
+
+2. Utilizar validação cruzada para escolher os melhores parâmetros.
+
+
+3. Aumentar a quantidade ou a diversidade dos dados de treinamento (ou aplicar técnicas de regularização).
+
+
+
+Essa analogia destaca que um bom modelo deve aprender as regras gerais do problema, e não apenas memorizar os exemplos que já viu.
+
+---
 
 5.1 (0,4 pt) — Prompts utilizados
 Prompt: "Como tratar valores 0 biologicamente impossíveis no dataset Pima Indians Diabetes?"
