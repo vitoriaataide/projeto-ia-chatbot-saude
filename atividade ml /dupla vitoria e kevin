@@ -220,3 +220,92 @@ Interpretação
 A variável que normalmente apresenta maior importância é Glicose, seguida por IMC e Idade.
 
 Esse resultado faz sentido do ponto de vista clínico, pois níveis elevados de glicose no sangue são um dos principais critérios utilizados no diagnóstico do diabetes. Além disso, maior IMC e idade mais avançada são fatores de risco conhecidos, estando associados ao aumento da resistência à insulina e da probabilidade de desenvolver a doença.
+
+---
+
+3.1 (0,5 pt) — Método do Cotovelo
+
+Código
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Remover a coluna de variedade
+X = df.drop('Variedade', axis=1)
+
+# Escalonamento
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Método do cotovelo
+inercia = []
+
+for k in range(1, 11):
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    kmeans.fit(X_scaled)
+    inercia.append(kmeans.inertia_)
+
+plt.plot(range(1, 11), inercia, marker='o')
+plt.xlabel("Número de clusters")
+plt.ylabel("Inércia")
+plt.title("Método do Cotovelo")
+plt.show()
+
+Resposta
+
+O gráfico do método do cotovelo apresenta uma redução acentuada da inércia até k = 3, tornando-se mais suave a partir desse ponto. Portanto, os dados sugerem a existência de 3 grupos naturais, pois adicionar mais clusters gera apenas pequenas melhorias na compactação dos grupos.
+
+
+---
+
+3.2 (0,7 pt) — K-Means + PCA
+
+Código
+
+from sklearn.decomposition import PCA
+
+# K-Means
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+clusters = kmeans.fit_predict(X_scaled)
+
+# PCA para visualização
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+plt.figure(figsize=(7,5))
+plt.scatter(X_pca[:,0], X_pca[:,1], c=clusters)
+plt.xlabel("Componente Principal 1")
+plt.ylabel("Componente Principal 2")
+plt.title("Clusters de sementes (PCA)")
+plt.show()
+
+Resposta
+
+Após o escalonamento e a aplicação do PCA, observa-se uma separação relativamente clara entre os 3 grupos, indicando que as medidas geométricas são suficientes para distinguir diferentes tipos de sementes de trigo.
+
+
+---
+
+3.3 (0,8 pt) — Caracterização dos grupos e aplicação
+
+Código
+
+df_cluster = df.copy()
+df_cluster['Cluster'] = clusters
+
+# Média de cada característica por grupo
+print(df_cluster.groupby('Cluster').mean())
+
+Caracterização
+
+Cluster 0: sementes com maior área, comprimento e largura, indicando grãos maiores.
+
+Cluster 1: sementes com medidas intermediárias e formato equilibrado.
+
+Cluster 2: sementes menores, com menor área e comprimento e maior variação na assimetria.
+
+
+Aplicação real
+
+Uma cooperativa agrícola pode utilizar essa segmentação para classificar automaticamente lotes de sementes, separando variedades com características semelhantes para comercialização, armazenamento e plantio. Essa estratégia melhora o controle de qualidade, permite definir preços diferenciados e auxilia na seleção de sementes mais adequadas para diferentes condições de cultivo e produtividade.
