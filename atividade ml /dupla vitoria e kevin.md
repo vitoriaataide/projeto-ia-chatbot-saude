@@ -459,3 +459,210 @@ Uma cooperativa agrícola pode utilizar essa segmentação para:
 A utilização de técnicas de agrupamento permite automatizar processos que tradicionalmente seriam realizados por inspeção manual, aumentando a eficiência e reduzindo custos operacionais.
 
 ---
+
+# Questão 4 — Diagnóstico de Overfitting
+
+---
+
+# 4.1 (0,8 pt) — Curva do Overfitting
+
+## Código
+
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+X = df.drop("Diabetes", axis=1)
+y = df["Diabetes"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
+)
+
+treino = []
+teste = []
+
+for profundidade in range(1, 21):
+
+    arvore = DecisionTreeClassifier(
+        max_depth=profundidade,
+        random_state=42
+    )
+
+    arvore.fit(X_train, y_train)
+
+    treino.append(
+        accuracy_score(
+            y_train,
+            arvore.predict(X_train)
+        )
+    )
+
+    teste.append(
+        accuracy_score(
+            y_test,
+            arvore.predict(X_test)
+        )
+    )
+
+plt.figure(figsize=(8, 5))
+
+plt.plot(
+    range(1, 21),
+    treino,
+    label="Treino"
+)
+
+plt.plot(
+    range(1, 21),
+    teste,
+    label="Teste"
+)
+
+plt.xlabel("Profundidade da Árvore")
+plt.ylabel("Acurácia")
+plt.title("Curva de Overfitting")
+plt.legend()
+
+plt.show()
+```
+
+## Resposta
+
+Ao analisar o gráfico, observa-se que a acurácia no conjunto de treino aumenta continuamente à medida que a profundidade da árvore cresce. Entretanto, a acurácia no conjunto de teste melhora apenas até determinado ponto e, posteriormente, começa a diminuir.
+
+Esse comportamento caracteriza o **overfitting**, indicando que o modelo está memorizando os dados de treinamento em vez de aprender padrões que possam ser generalizados.
+
+No conjunto de dados de diabetes, esse fenômeno normalmente começa entre profundidades **5 e 7**.
+
+---
+
+# 4.2 (0,6 pt) — Escolha da Profundidade Ideal com Validação Cruzada
+
+## Código
+
+```python
+from sklearn.model_selection import cross_val_score
+from sklearn.tree import DecisionTreeClassifier
+import numpy as np
+
+medias = []
+
+for profundidade in range(1, 21):
+
+    modelo = DecisionTreeClassifier(
+        max_depth=profundidade,
+        random_state=42
+    )
+
+    score = cross_val_score(
+        modelo,
+        X,
+        y,
+        cv=5,
+        scoring="accuracy"
+    )
+
+    medias.append(score.mean())
+
+melhor = np.argmax(medias) + 1
+
+print("Melhor profundidade:", melhor)
+print("Acurácia média:", max(medias))
+```
+
+## Resposta
+
+A profundidade ideal é aquela que apresenta a maior média de acurácia durante a validação cruzada.
+
+Esse procedimento é mais confiável do que selecionar o modelo apenas observando uma divisão treino/teste, pois avalia o desempenho em diferentes subconjuntos dos dados e reduz o risco de escolhas influenciadas por uma única amostra.
+
+---
+
+# 4.3 (0,6 pt) — O que é Overfitting?
+
+## Analogia
+
+Imagine um estudante que, em vez de aprender matemática, apenas decora todas as respostas do caderno de exercícios.
+
+Quando realiza uma prova com questões diferentes, ele não consegue resolvê-las porque memorizou exemplos específicos, mas não aprendeu os conceitos.
+
+Um modelo com overfitting se comporta da mesma forma: ele aprende excessivamente os dados de treinamento e perde a capacidade de generalizar para novos casos.
+
+## Três formas de combater o overfitting
+
+1. Limitar a complexidade do modelo, por exemplo reduzindo a profundidade da árvore.
+
+2. Utilizar validação cruzada para selecionar os melhores hiperparâmetros.
+
+3. Aumentar a quantidade ou a diversidade dos dados de treinamento ou aplicar técnicas de regularização.
+
+## Conclusão
+
+Um bom modelo deve aprender padrões gerais presentes nos dados e não apenas memorizar exemplos específicos. Dessa forma, será capaz de apresentar bom desempenho tanto no treinamento quanto em novos dados.
+
+---
+
+# Questão 5 — Uso de LLM
+
+## 5.1 (0,4 pt) — Prompts Utilizados
+
+### Prompt 1
+
+> Como tratar valores 0 biologicamente impossíveis no dataset Pima Indians Diabetes?
+
+**Objetivo**
+
+Identificar uma estratégia adequada de pré-processamento dos dados, justificando a substituição dos valores por NaN e a posterior imputação utilizando a mediana.
+
+### Prompt 2
+
+> Como aplicar K-Means com PCA para visualizar clusters em duas dimensões?
+
+**Objetivo**
+
+Revisar a sequência correta de escalonamento dos dados, aplicação do algoritmo K-Means e utilização do PCA para gerar uma visualização bidimensional dos agrupamentos.
+
+---
+
+## 5.2 (0,3 pt) — O LLM errou ou sugeriu algo inadequado?
+
+Sim.
+
+Em uma das respostas, o LLM sugeriu utilizar o Random Forest como melhor modelo antes da comparação efetiva entre os algoritmos.
+
+Essa sugestão foi revisada, pois a escolha do melhor modelo deve ser baseada nos resultados obtidos experimentalmente por meio da validação cruzada, utilizando o recall como critério de avaliação.
+
+---
+
+## 5.3 (0,3 pt) — Decisão tomada sem ajuda do LLM
+
+A decisão de priorizar o **Recall** como principal métrica para o problema de previsão de diabetes foi tomada considerando o contexto da aplicação.
+
+Um falso negativo significa classificar um paciente com diabetes como saudável, o que pode atrasar o diagnóstico e o tratamento, trazendo consequências potencialmente graves.
+
+Por esse motivo, optou-se por privilegiar a capacidade do modelo de identificar corretamente os pacientes doentes, mesmo que isso implique um aumento no número de falsos positivos.
+
+---
+
+# Considerações Finais
+
+Durante o desenvolvimento das atividades foram aplicadas técnicas de:
+
+- Análise Exploratória de Dados (EDA);
+- Pré-processamento e imputação de valores ausentes;
+- Classificação supervisionada;
+- Agrupamento não supervisionado;
+- Redução de dimensionalidade com PCA;
+- Avaliação de modelos por validação cruzada;
+- Diagnóstico e mitigação de overfitting.
+
+Além disso, a utilização de um LLM serviu como ferramenta de apoio para revisão de conceitos e implementação de código, enquanto as decisões metodológicas foram fundamentadas na interpretação do problema e nos resultados experimentais obtidos.
+
+```
